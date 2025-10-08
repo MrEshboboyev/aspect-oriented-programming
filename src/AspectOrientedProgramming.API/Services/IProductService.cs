@@ -35,6 +35,7 @@ public interface IProductService
     [Validate]
     [Log]
     [Performance(1000)] // Warn if takes more than 1 second
+    [InvalidateCache("IProductService.GetAllProducts()")] // Invalidate GetAllProducts cache when a new product is created
     Product CreateProduct(Product product);
 
     /// <summary>
@@ -47,6 +48,7 @@ public interface IProductService
     [Log]
     [Performance(1000)] // Warn if takes more than 1 second
     [InvalidateCache("IProductService.GetProductById({id})")]
+    [InvalidateCache("IProductService.GetAllProducts()")] // Invalidate GetAllProducts cache when a product is updated
     Product UpdateProduct(int id, Product product);
 
     /// <summary>
@@ -56,6 +58,7 @@ public interface IProductService
     [Log]
     [Performance(500)] // Warn if takes more than 500ms
     [InvalidateCache("IProductService.GetProductById({id})")]
+    [InvalidateCache("IProductService.GetAllProducts()")] // Invalidate GetAllProducts cache when a product is deleted
     void DeleteProduct(int id);
 
     /// <summary>

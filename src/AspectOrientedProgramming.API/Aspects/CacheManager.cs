@@ -18,6 +18,11 @@ public static class CacheManager
     /// <param name="cache">The memory cache instance</param>
     public static void Initialize(IMemoryCache cache)
     {
+        // If we're changing the cache instance, clear the existing entries
+        if (_cache != null && _cache != cache)
+        {
+            _cacheEntries.Clear();
+        }
         _cache = cache;
     }
 

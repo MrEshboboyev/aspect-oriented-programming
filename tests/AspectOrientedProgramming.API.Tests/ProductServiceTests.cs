@@ -180,4 +180,110 @@ public class ProductServiceTests
         Assert.Equal(2, electronicsProducts.Count);
         Assert.All(electronicsProducts, p => Assert.Equal("Electronics", p.Category));
     }
+
+    [Fact]
+    public void ProductService_CreateProduct_Should_Invalidate_GetAllProducts_Cache()
+    {
+        // Arrange
+        var existingProduct = new Product
+        {
+            Name = "Existing Product",
+            Description = "Existing Description",
+            Price = 10.99m,
+            Category = "Test Category"
+        };
+        _productService.CreateProduct(existingProduct);
+
+        // Get all products to cache the result
+        var initialProducts = _productService.GetAllProducts();
+        var initialCount = initialProducts.Count;
+
+        var newProduct = new Product
+        {
+            Name = "New Product",
+            Description = "New Description",
+            Price = 15.99m,
+            Category = "Test Category"
+        };
+
+        // Act
+        _productService.CreateProduct(newProduct);
+
+        // Assert - Get all products again, should include the new product (cache invalidated)
+        var productsAfterCreation = _productService.GetAllProducts();
+        Assert.Equal(initialCount + 1, productsAfterCreation.Count);
+        Assert.Contains(productsAfterCreation, p => p.Name == "New Product");
+    }
+
+    [Fact]
+    public void ProductService_UpdateProduct_Should_Invalidate_GetAllProducts_Cache()
+    {
+        // Arrange
+        var product = new Product
+        {
+            Name = "Original Product",
+            Description = "Original Description",
+            Price = 10.99m,
+            Category = "Test Category"
+        };
+        var createdProduct = _productService.CreateProduct(product);
+
+        // Get all products to cache the result
+        var initialProducts = _productService.GetAllProducts();
+        var productToUpdate = initialProducts.First(p => p.Id == createdProduct.Id);
+        Assert.Equal("Original Product", productToUpdate.Name);
+
+        var updatedProduct = new Product
+        {
+            Name = "Updated Product",
+            Description = "Updated Description",
+            Price = 20.99m,
+            Category = "Updated Category"
+        };
+
+        // Act
+        _productService.UpdateProduct(createdProduct.Id, updatedProduct);
+
+        // Assert - Get all products again, should reflect the updated product (cache invalidated)
+        var productsAfterUpdate = _productService.GetAllProducts();
+        var updatedProductInList = productsAfterUpdate.First(p => p.Id == createdProduct.Id);
+        Assert.Equal("Updated Product", updatedProductInList.Name);
+        Assert.Equal("Updated Category", updatedProductInList.Category);
+        Assert.Equal(20.99m, updatedProductInList.Price);
+    }
+
+    [Fact]
+    public void ProductService_DeleteProduct_Should_Invalidate_GetAllProducts_Cache()
+    {
+        // Arrange
+        var product1 = new Product
+        {
+            Name = "Product 1",
+            Description = "Description 1",
+            Price = 10.99m,
+            Category = "Test Category"
+        };
+        var product2 = new Product
+        {
+            Name = "Product 2",
+            Description = "Description 2",
+            Price = 20.99m,
+            Category = "Test Category"
+        };
+        var createdProduct1 = _productService.CreateProduct(product1);
+        var createdProduct2 = _productService.CreateProduct(product2);
+
+        // Get all products to cache the result
+        var initialProducts = _productService.GetAllProducts();
+        var initialCount = initialProducts.Count;
+
+        // Act
+        _productService.DeleteProduct(createdProduct1.Id);
+
+        // Assert - Get all products again, should not include the deleted product (cache invalidated)
+        var productsAfterDeletion = _productService.GetAllProducts();
+        Assert.Equal(initialCount - 1, productsAfterDeletion.Count);
+        Assert.DoesNotContain(productsAfterDeletion, p => p.Id == createdProduct1.Id);
+        Assert.Contains(productsAfterDeletion, p => p.Id == createdProduct2.Id);
+    }
 }

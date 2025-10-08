@@ -33,8 +33,8 @@ public class CachingInterceptor : BaseInterceptor
     public override bool ShouldIntercept(IInvocation invocation)
     {
         // Check if method has Cache attribute or InvalidateCache attribute
-        return invocation.Method.GetCustomAttribute<CacheAttribute>() != null ||
-               invocation.Method.GetCustomAttribute<InvalidateCacheAttribute>() != null;
+        return invocation.Method.GetCustomAttributes<CacheAttribute>().Any() ||
+               invocation.Method.GetCustomAttributes<InvalidateCacheAttribute>().Any();
     }
 
     /// <summary>
@@ -58,10 +58,11 @@ public class CachingInterceptor : BaseInterceptor
         }
 
         // Check if method has Cache attribute
-        var cacheAttribute = invocation.Method.GetCustomAttribute<CacheAttribute>();
-        if (cacheAttribute != null)
+        var cacheAttributes = invocation.Method.GetCustomAttributes<CacheAttribute>();
+        if (cacheAttributes.Any())
         {
-            HandleCaching(invocation, cacheAttribute);
+            // Use the first cache attribute if multiple exist
+            HandleCaching(invocation, cacheAttributes.First());
         }
         else
         {
@@ -144,16 +145,26 @@ public class CachingInterceptor : BaseInterceptor
         }
         else if (attribute.CacheKeyPattern != null)
         {
-            // Resolve the cache key pattern with actual method arguments
-            var resolvedPattern = ResolveCacheKeyPattern(attribute.CacheKeyPattern, invocation);
-            
-            // Log the pattern for debugging
-            _logger.LogInformation("Attempting to invalidate cache with pattern: {CacheKeyPattern}", resolvedPattern);
-            
-            // Invalidate cache entries by pattern using CacheManager
-            CacheManager.InvalidateCacheByPattern(resolvedPattern);
-            
-            _logger.LogInformation("Cache invalidated for pattern: {CacheKeyPattern}", resolvedPattern);
+            // Special handling for wildcard pattern
+            if (attribute.CacheKeyPattern == "*")
+            {
+                // Invalidate all cache entries using CacheManager
+                CacheManager.InvalidateAll();
+                _logger.LogInformation("Cache invalidation for all entries completed (wildcard pattern)");
+            }
+            else
+            {
+                // Resolve the cache key pattern with actual method arguments
+                var resolvedPattern = ResolveCacheKeyPattern(attribute.CacheKeyPattern, invocation);
+                
+                // Log the pattern for debugging
+                _logger.LogInformation("Attempting to invalidate cache with pattern: {CacheKeyPattern}", resolvedPattern);
+                
+                // Invalidate cache entries by pattern using CacheManager
+                CacheManager.InvalidateCacheByPattern(resolvedPattern);
+                
+                _logger.LogInformation("Cache invalidated for pattern: {CacheKeyPattern}", resolvedPattern);
+            }
         }
     }
 

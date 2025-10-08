@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspectOrientedProgramming.API\AspectOrientedProgramming.API.csproj" />
+    <ProjectReference Include="..\..\src\AspectOrientedProgramming.API\AspectOrientedProgramming.API.csproj" />
   </ItemGroup>
 
 </Project>
