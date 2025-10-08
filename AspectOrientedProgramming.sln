@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspectOrientedProgramming.API", "AspectOrientedProgramming.API\AspectOrientedProgramming.API.csproj", "{A96FC8DF-160C-4727-A026-B00B26DCA2EC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspectOrientedProgramming.API.Tests", "AspectOrientedProgramming.API.Tests\AspectOrientedProgramming.API.Tests.csproj", "{4E94E656-6893-EC01-6507-BFC86C6EA039}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6CC4548A-5F3F-4C51-ADA8-557E596C19A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspectOrientedProgramming.API", "src\AspectOrientedProgramming.API\AspectOrientedProgramming.API.csproj", "{CB74E38B-0C79-25AA-CE5A-958507A851ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspectOrientedProgramming.API.Tests", "tests\AspectOrientedProgramming.API.Tests\AspectOrientedProgramming.API.Tests.csproj", "{42FE9845-A32B-F3CD-D912-47E0C8C92A18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,19 +17,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A96FC8DF-160C-4727-A026-B00B26DCA2EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A96FC8DF-160C-4727-A026-B00B26DCA2EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A96FC8DF-160C-4727-A026-B00B26DCA2EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A96FC8DF-160C-4727-A026-B00B26DCA2EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E94E656-6893-EC01-6507-BFC86C6EA039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E94E656-6893-EC01-6507-BFC86C6EA039}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E94E656-6893-EC01-6507-BFC86C6EA039}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E94E656-6893-EC01-6507-BFC86C6EA039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB74E38B-0C79-25AA-CE5A-958507A851ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB74E38B-0C79-25AA-CE5A-958507A851ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB74E38B-0C79-25AA-CE5A-958507A851ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB74E38B-0C79-25AA-CE5A-958507A851ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FE9845-A32B-F3CD-D912-47E0C8C92A18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42FE9845-A32B-F3CD-D912-47E0C8C92A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42FE9845-A32B-F3CD-D912-47E0C8C92A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42FE9845-A32B-F3CD-D912-47E0C8C92A18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{4E94E656-6893-EC01-6507-BFC86C6EA039} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CB74E38B-0C79-25AA-CE5A-958507A851ED} = {6CC4548A-5F3F-4C51-ADA8-557E596C19A6}
+		{42FE9845-A32B-F3CD-D912-47E0C8C92A18} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 EndGlobal
