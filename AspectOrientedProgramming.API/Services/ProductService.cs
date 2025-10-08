@@ -1,6 +1,4 @@
-using AspectOrientedProgramming.API.Attributes;
 using AspectOrientedProgramming.API.Models;
-using System.Diagnostics;
 
 namespace AspectOrientedProgramming.API.Services;
 
@@ -14,13 +12,7 @@ public class ProductService(
     private static readonly List<Product> _products = new List<Product>();
     private static int _nextId = 1;
 
-    /// <summary>
-    /// Gets all products with caching
-    /// </summary>
-    /// <returns>List of all products</returns>
-    [Cache(10)] // Cache for 10 minutes
-    [Log]
-    [Performance(500)] // Warn if takes more than 500ms
+    /// <inheritdoc />
     public List<Product> GetAllProducts()
     {
         logger.LogDebug("GetAllProducts method called");
@@ -31,14 +23,7 @@ public class ProductService(
         return new List<Product>(_products);
     }
 
-    /// <summary>
-    /// Gets a product by its ID with caching
-    /// </summary>
-    /// <param name="id">Product ID</param>
-    /// <returns>Product with the specified ID, or null if not found</returns>
-    [Cache(5)] // Cache for 5 minutes
-    [Log]
-    [Performance(200)] // Warn if takes more than 200ms
+    /// <inheritdoc />
     public Product? GetProductById(int id)
     {
         logger.LogDebug("GetProductById method called with ID: {ProductId}", id);
@@ -57,14 +42,7 @@ public class ProductService(
         return product;
     }
 
-    /// <summary>
-    /// Creates a new product with validation
-    /// </summary>
-    /// <param name="product">Product to create</param>
-    /// <returns>Created product</returns>
-    [Validate]
-    [Log]
-    [Performance(1000)] // Warn if takes more than 1 second
+    /// <inheritdoc />
     public Product CreateProduct(Product product)
     {
         logger.LogInformation("Creating new product: {ProductName}", product.Name);
@@ -78,15 +56,7 @@ public class ProductService(
         return product;
     }
 
-    /// <summary>
-    /// Updates an existing product with validation
-    /// </summary>
-    /// <param name="id">ID of the product to update</param>
-    /// <param name="product">Updated product data</param>
-    /// <returns>Updated product</returns>
-    [Validate]
-    [Log]
-    [Performance(1000)] // Warn if takes more than 1 second
+    /// <inheritdoc />
     public Product UpdateProduct(int id, Product product)
     {
         logger.LogInformation("Updating product with ID: {ProductId}", id);
@@ -106,12 +76,7 @@ public class ProductService(
         return existingProduct;
     }
 
-    /// <summary>
-    /// Deletes a product
-    /// </summary>
-    /// <param name="id">ID of the product to delete</param>
-    [Log]
-    [Performance(500)] // Warn if takes more than 500ms
+    /// <inheritdoc />
     public void DeleteProduct(int id)
     {
         logger.LogInformation("Deleting product with ID: {ProductId}", id);
@@ -128,14 +93,7 @@ public class ProductService(
         }
     }
 
-    /// <summary>
-    /// Gets products by category with caching
-    /// </summary>
-    /// <param name="category">Category to filter by</param>
-    /// <returns>List of products in the specified category</returns>
-    [Cache(5)] // Cache for 5 minutes
-    [Log]
-    [Performance(300)] // Warn if takes more than 300ms
+    /// <inheritdoc />
     public List<Product> GetProductsByCategory(string category)
     {
         logger.LogDebug("GetProductsByCategory method called with category: {Category}", category);

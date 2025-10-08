@@ -1,4 +1,3 @@
-using AspectOrientedProgramming.API.Attributes;
 using AspectOrientedProgramming.API.Models;
 
 namespace AspectOrientedProgramming.API.Services;
@@ -10,16 +9,10 @@ public class OrderService(
     ILogger<OrderService> logger
 ) : IOrderService
 {
-    private static readonly List<Order> _orders = [];
+    private static readonly List<Order> _orders = new List<Order>();
     private static int _nextId = 1;
 
-    /// <summary>
-    /// Gets all orders with caching
-    /// </summary>
-    /// <returns>List of all orders</returns>
-    [Cache(10)] // Cache for 10 minutes
-    [Log]
-    [Performance(500)] // Warn if takes more than 500ms
+    /// <inheritdoc />
     public List<Order> GetAllOrders()
     {
         logger.LogDebug("GetAllOrders method called");
@@ -30,14 +23,7 @@ public class OrderService(
         return [.. _orders];
     }
 
-    /// <summary>
-    /// Gets an order by its ID with caching
-    /// </summary>
-    /// <param name="id">Order ID</param>
-    /// <returns>Order with the specified ID, or null if not found</returns>
-    [Cache(5)] // Cache for 5 minutes
-    [Log]
-    [Performance(200)] // Warn if takes more than 200ms
+    /// <inheritdoc />
     public Order? GetOrderById(int id)
     {
         logger.LogDebug("GetOrderById method called with ID: {OrderId}", id);
@@ -56,14 +42,7 @@ public class OrderService(
         return order;
     }
 
-    /// <summary>
-    /// Creates a new order with validation
-    /// </summary>
-    /// <param name="order">Order to create</param>
-    /// <returns>Created order</returns>
-    [Validate]
-    [Log]
-    [Performance(1000)] // Warn if takes more than 1 second
+    /// <inheritdoc />
     public Order CreateOrder(Order order)
     {
         logger.LogInformation("Creating new order for customer: {CustomerName}", order.CustomerName);
@@ -82,15 +61,7 @@ public class OrderService(
         return order;
     }
 
-    /// <summary>
-    /// Updates an existing order with validation
-    /// </summary>
-    /// <param name="id">ID of the order to update</param>
-    /// <param name="order">Updated order data</param>
-    /// <returns>Updated order</returns>
-    [Validate]
-    [Log]
-    [Performance(1000)] // Warn if takes more than 1 second
+    /// <inheritdoc />
     public Order UpdateOrder(int id, Order order)
     {
         logger.LogInformation("Updating order with ID: {OrderId}", id);
@@ -114,12 +85,7 @@ public class OrderService(
         return existingOrder;
     }
 
-    /// <summary>
-    /// Deletes an order
-    /// </summary>
-    /// <param name="id">ID of the order to delete</param>
-    [Log]
-    [Performance(500)] // Warn if takes more than 500ms
+    /// <inheritdoc />
     public void DeleteOrder(int id)
     {
         logger.LogInformation("Deleting order with ID: {OrderId}", id);
@@ -136,14 +102,7 @@ public class OrderService(
         }
     }
 
-    /// <summary>
-    /// Gets orders by status with caching
-    /// </summary>
-    /// <param name="status">Status to filter by</param>
-    /// <returns>List of orders with the specified status</returns>
-    [Cache(5)] // Cache for 5 minutes
-    [Log]
-    [Performance(300)] // Warn if takes more than 300ms
+    /// <inheritdoc />
     public List<Order> GetOrdersByStatus(OrderStatus status)
     {
         logger.LogDebug("GetOrdersByStatus method called with status: {OrderStatus}", status);
